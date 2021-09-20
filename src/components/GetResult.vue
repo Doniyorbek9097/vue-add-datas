@@ -6,10 +6,17 @@
       justify-content-center
       align-items-center
       vh-100
-      bg-success
+      
     "
   >
     <div class="row w-50 gy-3">
+
+    <div class="col-12 d-flex">
+       <input type="date" class = "form-control" v-model="From">
+       <input type="date" class="form-control" v-model="To"> 
+       <button class="btn btn-success" @click="FilterData()">Filter</button>   
+    </div>
+
       <div class="col-12">
         <table
           class="
@@ -24,6 +31,8 @@
               <th>#</th>
               <th>narxi</th>
               <th>tel</th>
+              <th>Delete</th>
+              
             </tr>
           </thead>
 
@@ -32,19 +41,17 @@
               <td>{{ item.id }}</td>
               <td>{{ item.price }}</td>
               <td>{{ item.phone }}</td>
-              <button
-                class="btn btn-danger bg-danger"
-                @click="DelBtn(item.id, index)"
-              >
+                <th><button class="btn btn-danger text-white bg-danger" @click="DelBtn(item.id, index)"></td>
                 delete
               </button>
+            </th>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="col-12 d-flex justify-content-end">
-        <router-link to="add" class="btn btn-danger rounded-circle"
+        <router-link to="add" class="btn btn-success rounded"
           >+</router-link
         >
       </div>
@@ -58,6 +65,8 @@ export default {
   data() {
     return {
       result: [],
+      From:"",
+      To:"",
     };
   },
   created() {
@@ -92,6 +101,39 @@ export default {
       }
       
     },
+
+  FilterData(){
+    if(this.From == "" && this.To == ""){
+      alert("sanani kiriting")
+    }else{
+      let Filtered = new FormData();
+        Filtered.append("from",this.From);
+        Filtered.append("to",this.To);
+    let FilterUrl = `https://api.getty.uz/public/v1/sl/filter`;
+    
+    if(navigator.onLine){
+      fetch(FilterUrl,{
+      method:"post",
+      body:Filtered
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      
+      
+    })
+    }else{
+      alert("Internetga ulanmagansiz!")
+    }
+
+
+
+
+    }
+  }
+
+
+
   },
 };
 </script>
