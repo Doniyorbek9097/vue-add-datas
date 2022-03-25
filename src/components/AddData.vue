@@ -15,7 +15,7 @@
             placeholder="Tel"
             v-model="phone"
           />
-          <button class="btn btn-success" @click="Add()">Add</button>
+          <button class="btn btn-success" @click="Add()">Add (abduvaliyev shuyerni o'zgartirdi</button>
         </form>
       </div>
     </div>
